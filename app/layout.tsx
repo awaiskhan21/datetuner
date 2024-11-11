@@ -34,11 +34,6 @@ export default function RootLayout({
           <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
             {children}
           </main>
-          <footer className="bg-blue-100 py-12">
-            <div className="text-center text-gray-600 container mx-auto px-4 ">
-              <p>Developed by Awais A. khan</p>
-            </div>
-          </footer>
         </body>
       </html>
     </ClerkProvider>
