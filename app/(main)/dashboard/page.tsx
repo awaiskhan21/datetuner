@@ -1,27 +1,43 @@
 "use client";
+import { updateUsername } from "@/actions/user";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import useFetch from "@/hooks/useFetch";
 import { usernameSchema } from "@/lib/validators";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { BarLoader } from "react-spinners";
+
+interface FormData {
+  username: string;
+}
 
 function Dashboard() {
   const { user, isLoaded } = useUser();
+
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<FormData>({
     resolver: zodResolver(usernameSchema),
   });
+
+  const { loading, error, fn: updateUsernameFn } = useFetch(updateUsername);
+
   useEffect(() => {
-    setValue("username", user?.username);
+    setValue("username", user?.username as string);
   }, [isLoaded]);
-  const onSubmit = async () => {};
+
+  // this is the function that will be called when the form for update username is submitted
+  const onSubmit = async (data: FormData) => {
+    await updateUsernameFn(data.username);
+  };
+
   return (
     <div className="space-y-8">
       <Card>
@@ -42,13 +58,22 @@ function Dashboard() {
                   </span>
                   <Input {...register("username")} placeholder="username" />
                 </div>
+
+                {/* this for form */}
+                {errors.username && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {typeof errors.username.message === "string"
+                      ? errors.username.message
+                      : "error"}{" "}
+                  </p>
+                )}
+                {/* this one is for api call */}
+                {error && (
+                  <p className="text-red-500 text-sm mt-1">{error?.message} </p>
+                )}
               </div>
-              {errors.username && (
-                <p className="text-red-500 text-sm mt-1">
-                  {typeof errors.username.message === "string"
-                    ? errors.username.message
-                    : "error"}{" "}
-                </p>
+              {loading && (
+                <BarLoader className="mb-4" color="#2563EB" width={"100%"} />
               )}
               <Button type="submit">Update Username</Button>
             </form>

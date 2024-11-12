@@ -17,7 +17,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   return (
     <>
-      {!isLoaded && <BarLoader width="100%" color="#36d7b7" />}
+      {!isLoaded && <BarLoader width="100%" color="#2563EB" />}
       <div className="flex flex-col h-screen bg-blue-50 md:flex-row">
         <aside className="hidden md:block w-64 bg-white">
           <nav className="mt-8">
