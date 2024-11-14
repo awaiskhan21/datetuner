@@ -17,7 +17,7 @@ async function Header() {
       </Link>
 
       <div className="flex items-center gap-4">
-        <Link href="/event?create=true">
+        <Link href="/events?create=true">
           <Button className="flex items-center gap-2">
             <PenBox size={18} />
             Create Event

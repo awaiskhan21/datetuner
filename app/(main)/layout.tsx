@@ -7,9 +7,9 @@ import { BarLoader } from "react-spinners";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: BarChart },
-  { href: "events", label: "Events", icon: Calendar },
-  { href: "meetings", label: "Meetings", icon: Users },
-  { href: "availability", label: "Availability", icon: Clock },
+  { href: "/events", label: "Events", icon: Calendar },
+  { href: "/meetings", label: "Meetings", icon: Users },
+  { href: "/availability", label: "Availability", icon: Clock },
 ];
 
 function AppLayout({ children }: { children: React.ReactNode }) {

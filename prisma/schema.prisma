@@ -22,4 +22,17 @@ model User {
   imageUrl    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  events      Events[] @relation("UserEvents")
+}
+
+model Events {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  duration    Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isPrivate   Boolean  @default(true)
+  userId      String
+  user        User     @relation("UserEvents", fields: [userId], references: [id])
 }

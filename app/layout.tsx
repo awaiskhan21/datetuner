@@ -1,3 +1,4 @@
+import CreateEvent from "@/components/createEvents";
 import Header from "@/components/header";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
@@ -34,6 +35,7 @@ export default function RootLayout({
           <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
             {children}
           </main>
+          <CreateEvent />
         </body>
       </html>
     </ClerkProvider>

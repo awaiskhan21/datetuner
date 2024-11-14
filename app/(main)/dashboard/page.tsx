@@ -11,10 +11,6 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BarLoader } from "react-spinners";
 
-interface FormData {
-  username: string;
-}
-
 function Dashboard() {
   const { user, isLoaded } = useUser();
 
@@ -23,7 +19,9 @@ function Dashboard() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<{
+    username: string;
+  }>({
     resolver: zodResolver(usernameSchema),
   });
 
@@ -34,7 +32,7 @@ function Dashboard() {
   }, [isLoaded]);
 
   // this is the function that will be called when the form for update username is submitted
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: { username: string }) => {
     await updateUsernameFn(data.username);
   };
 
