@@ -52,3 +52,30 @@ export async function getUserEvents() {
   });
   return { events, username: user.username };
 }
+
+export async function deleteEvent(eventId: string) {
+  const { userId } = auth();
+  if (!userId) {
+    throw new Error("You must be logged in to create an event");
+  }
+  const user = await prisma.user.findUnique({
+    where: {
+      clerkUserId: userId,
+    },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const event = await prisma.events.findUnique({
+    where: { id: eventId, userId: user.id },
+  });
+  if (!event) {
+    throw new Error("Event not found");
+  }
+  await prisma.events.delete({
+    where: { id: eventId, userId: user.id },
+  });
+  return { success: true };
+}
