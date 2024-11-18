@@ -23,7 +23,7 @@ export default function createEvent() {
       router.replace(`${window.location.pathname}`);
     }
   }
-  console.log(pathname);
+  // console.log(pathname);
   useEffect(() => {
     if (pathname === "true") setIsOpen(true);
   }, [pathname]);

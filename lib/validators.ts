@@ -22,3 +22,48 @@ export const eventSchema = z.object({
 });
 
 export type EventSchemaType = z.infer<typeof eventSchema>;
+
+export const daySchema = z
+  .object({
+    isAvailable: z.boolean(),
+    startTime: z.string().optional(),
+    endTime: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.isAvailable) {
+        return (
+          data.startTime !== undefined &&
+          data.endTime !== undefined &&
+          data.startTime < data.endTime
+        );
+      }
+      return true;
+    },
+    {
+      message: "End time must be greater than start time",
+      path: ["endTime"],
+    }
+  );
+
+export type daySchemaType = z.infer<typeof daySchema>;
+export const availabilitySchema = z.object({
+  timeGap: z
+    .number()
+    .int()
+    .positive("Time gap must be positive")
+    .min(0, "Time gap must be greater than 0"),
+  monday: daySchema,
+  tuesday: daySchema,
+  wednesday: daySchema,
+  thursday: daySchema,
+  friday: daySchema,
+  saturday: daySchema,
+  sunday: daySchema,
+});
+
+export type AvailabilitySchemaType = z.infer<typeof availabilitySchema>;
+
+export const example = z.object({
+  day: z.string(),
+});

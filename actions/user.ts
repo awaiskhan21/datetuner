@@ -6,6 +6,7 @@ import { auth, clerkClient } from "@clerk/nextjs/server";
 export const updateUsername = async (username: string) => {
   const { userId } = auth();
   if (!userId) throw new Error("User not found");
+
   const existingUser = await prisma.user.findUnique({
     where: {
       username,

@@ -8,3 +8,22 @@ export type EventType = {
   isPrivate: boolean;
   userId: string;
 };
+
+export type AvailabilityDataType = {
+  timeGap: number;
+  [key: string]:
+    | {
+        isAvailable: boolean;
+        startTime: string;
+        endTime: string;
+      }
+    | number;
+};
+export type Day =
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday"
+  | "sunday";

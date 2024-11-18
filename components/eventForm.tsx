@@ -30,12 +30,7 @@ const EventForm = ({ onSubmitForm }: { onSubmitForm: () => void }) => {
     },
   });
 
-  const {
-    data,
-    error,
-    loading,
-    fn: createEventFunction,
-  } = useFetch(createEvent);
+  const { error, loading, fn: createEventFunction } = useFetch(createEvent);
 
   const onSubmintHandler = (data: EventSchemaType) => {
     createEventFunction(data);
