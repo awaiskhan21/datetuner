@@ -79,3 +79,24 @@ export async function deleteEvent(eventId: string) {
   });
   return { success: true };
 }
+
+export async function getEventDetails(eventId: string, username: string) {
+  const event = await prisma.events.findFirst({
+    where: {
+      id: eventId,
+      user: {
+        username: username,
+      },
+    },
+    include: {
+      user: {
+        select: {
+          name: true,
+          imageUrl: true,
+          email: true,
+        },
+      },
+    },
+  });
+  return event;
+}

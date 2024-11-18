@@ -20,7 +20,7 @@ export default async function Page({
 }) {
   const username = (await params).username;
   const user = await getUserByUsername(username);
-  console.log(user);
+  // console.log(user);
   if (!user) {
     notFound;
   }
