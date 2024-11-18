@@ -18,7 +18,14 @@ const Event = async () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       {events.map((event) => {
-        return <EventCard key={event.id} event={event} username={username} />;
+        return (
+          <EventCard
+            key={event.id}
+            event={event}
+            username={username}
+            isPublic={false}
+          />
+        );
       })}
     </div>
   );

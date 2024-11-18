@@ -25,3 +25,27 @@ export const updateUsername = async (username: string) => {
   await clerkClient.users.updateUser(userId, { username });
   return { success: true };
 };
+
+export const getUserByUsername = async (username: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      username: username,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      imageUrl: true,
+      events: {
+        where: {
+          isPrivate: false,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
+    },
+  });
+
+  return user;
+};

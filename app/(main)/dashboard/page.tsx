@@ -7,13 +7,17 @@ import useFetch from "@/hooks/useFetch";
 import { usernameSchema } from "@/lib/validators";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BarLoader } from "react-spinners";
 
 function Dashboard() {
   const { user, isLoaded } = useUser();
+  const [origin, setOrigin] = useState("");
 
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
   const {
     register,
     handleSubmit,
@@ -51,9 +55,7 @@ function Dashboard() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
                 <div className="flex items-center gap-2 mt-6 mb-2">
-                  <span className="flex-shrink-0">
-                    {window?.location.origin}
-                  </span>
+                  <span className="flex-shrink-0">{origin}</span>
                   <Input {...register("username")} placeholder="username" />
                 </div>
 

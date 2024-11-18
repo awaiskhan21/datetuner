@@ -19,9 +19,11 @@ import { Button } from "./ui/button";
 function EventCard({
   event,
   username,
+  isPublic = false,
 }: {
   event: EventType;
   username: string;
+  isPublic: boolean;
 }) {
   const [isCopied, setIsCopied] = useState(false);
   const router = useRouter();
@@ -37,12 +39,7 @@ function EventCard({
     }
   };
 
-  const {
-    data,
-    error,
-    loading,
-    fn: deleteEventFunctin,
-  } = useFetch(deleteEvent);
+  const { loading, fn: deleteEventFunctin } = useFetch(deleteEvent);
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this event?")) {
@@ -50,8 +47,19 @@ function EventCard({
       router.refresh();
     }
   };
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if ((e.target as HTMLElement).tagName !== "BUTTON") {
+      window.open(
+        `${window.location.origin}/${username}/${event.id}`,
+        "_blank"
+      );
+    }
+  };
   return (
-    <Card className="flex flex-col justify-between cursor-pointer">
+    <Card
+      className="flex flex-col justify-between cursor-pointer"
+      onClick={handleCardClick}
+    >
       <CardHeader>
         <CardTitle>{event.title} </CardTitle>
         <CardDescription>
@@ -63,19 +71,26 @@ function EventCard({
       <CardContent>
         <p>{event.description}</p>
       </CardContent>
-      <CardFooter className="flex gap-4">
-        <Button
-          variant="outline"
-          className="flex items-center"
-          onClick={handleCopy}
-        >
-          <Link className="h-4 w-4 mr-2" /> {isCopied ? "Copied" : "Copy Link"}
-        </Button>
-        <Button variant="destructive" disabled={loading} onClick={handleDelete}>
-          <Trash2 className="h-4 w-4 mr-2" />
-          {loading ? "Deleting..." : "Delete Event"}
-        </Button>
-      </CardFooter>
+      {!isPublic && (
+        <CardFooter className="flex gap-4">
+          <Button
+            variant="outline"
+            className="flex items-center"
+            onClick={handleCopy}
+          >
+            <Link className="h-4 w-4 mr-2" />{" "}
+            {isCopied ? "Copied" : "Copy Link"}
+          </Button>
+          <Button
+            variant="destructive"
+            disabled={loading}
+            onClick={handleDelete}
+          >
+            <Trash2 className="h-4 w-4 mr-2" />
+            {loading ? "Deleting..." : "Delete Event"}
+          </Button>
+        </CardFooter>
+      )}
     </Card>
   );
 }
